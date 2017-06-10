@@ -1,7 +1,7 @@
 <html>
 <head>
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none'; object-src 'none'; script-src https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com 'self'; connect-src https://graph.api.smarthings.com; form-action 'self' https://graph.api.smartthings.com; style-src 'self' https://maxcdn.bootstrapcdn.com; font-src https://maxcdn.bootstrapcdn.com">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none'; object-src 'none'; script-src https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com 'self' 'unsafe-inline'; connect-src https://graph.api.smarthings.com; form-action 'self' https://graph.api.smartthings.com; style-src 'self' https://maxcdn.bootstrapcdn.com; font-src https://maxcdn.bootstrapcdn.com">
   <meta http-equiv="cache-control" content="max-age=0" />
   <meta http-equiv="cache-control" content="no-cache" />
   <meta http-equiv="expires" content="0" />
@@ -33,12 +33,12 @@
       </div>
       <div class="col-sm-4">
         <form id="theForm">
-          <p>Enter the Client ID: <input type=text id="client_id_input" required size="80%" max="36" pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" /></p>
-          <p>Enter the Client Secret: <input type=text id="client_secret_input" size="80%" value="Required once an authorization code has been retrieved." readonly /></p>
-          <p>Your REST Endpoint: <input type=text id="client_id_input" value="Your URL will appear here once complete." size="80%" readonly /></p>
-          <p>Your Secret Token: <input type=text id="client_id_input" value="Your token will appear here once complete." size="80%" readonly /></p>
-          <p><input type=submit value="Next Step" disabled /></p>
-          <p id="whatIsNext"></p>
+          <b><p id="whatIsNext"></p></b>
+          <p>Enter the Client ID: <input type=text id="client_id_input" required size="80%" max="36" pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" onkeyup="current_step = checkClientID()" /></p>
+          <p>Enter the Client Secret: <input type=text id="client_secret_input" size="80%" value="Required once an authorization code has been retrieved." readonly pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" onkeyup="current_step = checkClientSecret()" /></p>
+          <p>Your REST Endpoint: <input type=text id="your_url" value="Your URL will appear here once complete." size="80%" readonly /></p>
+          <p>Your Secret Token: <input type=text id="your_token" value="Your token will appear here once complete." size="80%" readonly /></p>
+          <p><input type=submit id="resetButton" value="Start Over" onclick="startOver()" disabled /> <input type=submit id="theButton" value="Next Step" disabled /></p>
         </form>
       </div>
     </div>
