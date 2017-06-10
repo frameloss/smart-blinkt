@@ -32,14 +32,20 @@
         <p><em>Note: this tool does not save any information you submit to the server, the entire process is handled from the web browser in Javascript. The client id is temporarily stored in a cookie until the OAuth authorization code is returned via callback, but authorization codes, and secrets are not retained.</em></p>
       </div>
       <div class="col-sm-4">
-        <form id="theForm">
           <b><p id="whatIsNext"></p></b>
-          <p>Enter the Client ID: <input type=text id="client_id_input" required size="80%" max="36" pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" onkeyup="current_step = checkClientID()" /></p>
-          <p>Enter the Client Secret: <input type=text id="client_secret_input" size="80%" value="Required once an authorization code has been retrieved." readonly pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" onkeyup="current_step = checkClientSecret()" /></p>
-          <p>Your REST Endpoint: <input type=text id="your_url" value="Your URL will appear here once complete." size="80%" readonly /></p>
-          <p>Your Secret Token: <input type=text id="your_token" value="Your token will appear here once complete." size="80%" readonly /></p>
-          <p><input type=submit id="resetButton" value="Start Over" onclick="startOver()" disabled /> <input type=submit id="theButton" value="Next Step" disabled /></p>
-        </form>
+          <p>Enter the Client ID: <input type=text id="client_id_input" required size="80%" max="36" 
+             pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" 
+              onkeyup="current_step = checkClientID()" /></p>
+          <p>Enter the Client Secret: <input type=text id="client_secret_input" size="80%"  max="36"
+             value="Required once an authorization code has been retrieved." readonly 
+             pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" 
+             onkeyup="current_step = checkClientSecret()" /></p>
+          <p>Your REST Endpoint: <input type=text id="your_url" 
+            value="Your URL will appear here once complete." size="80%" readonly /></p>
+          <p>Your Secret Token: <input type=text id="your_token" 
+            value="Your token will appear here once complete." size="80%" readonly /></p>
+          <p><input type=submit id="resetButton" value="Start Over" onclick="startOver()" disabled /> 
+             <input type=submit id="theButton" value="Next Step" onclick="nextStep()" disabled /></p>
       </div>
     </div>
   </div>

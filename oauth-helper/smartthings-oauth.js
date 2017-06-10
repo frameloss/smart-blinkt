@@ -5,8 +5,8 @@ var client_secret = "";
 var auth_code = "";
 var access_token = "";
 var endpoint_uri = "";
-// add: response_type=code, scope=app, client_id, and redirect_uri to GET parameters
 var authorize_uri = "https://graph.api.smartthings.com/oauth/authorize";
+var token_uri = "https://graph.api.smartthings.com/oauth/token";
 var endpoints_uri = "https://graph.api.smartthings.com/api/smartapps/endpoints";
 
 var step = [ "Please enter the Client ID from the OAuth section of the SmartApp's settings page.",
@@ -19,7 +19,7 @@ var stepError = "Something didn't work, sorry."
 
 
 $( document ).ready(function() {
-    console.log( "ready!" );
+    console.log(document.location);
     whatStep();
 });
 
@@ -37,7 +37,7 @@ function getUrlParameter(sParam) {
     }
 }
 
-//TODO: figure out what step we are on based on get params, or form input.
+//figure out what step we are on based on get params, or form input.
 function whatStep(){
     //Is the client ID already set in a cookie?
     var cookie = decodeURIComponent(document.cookie);
@@ -46,16 +46,18 @@ function whatStep(){
         current_step = 1;
         client_id = cookie.substring(9);
         $("#client_id_input").val(client_id);
+        checkClientID();
     }
  
     //Is this a callback, and did we get an auth code?
     var code = getUrlParameter('code');
-    if (current_step == 1 && code != undefined && code.match(/\w{9}/)) {
+    if (current_step == 1 && code != undefined && code.match(/\w{6}/)) {
         auth_code = code;
         current_step = 2;
         $("#client_secret_input").val("");
         $("#client_secret_input").attr("readonly",false);
         $("#client_id_input").attr("readonly",true);
+        checkClientSecret();
     }
     setMessage(current_step);
     if (current_step > 0) {
@@ -63,7 +65,7 @@ function whatStep(){
     }
 }
 
-//TODO: set status message based on what step we are on
+//set status message based on what step we are on
 function setMessage(current_step) {
     $("#whatIsNext").html(step[current_step]);
 }
@@ -74,8 +76,11 @@ function checkClientID(){
         setMessage(1);
         setClientCookie($("#client_id_input").val());
         $('input:submit').removeAttr("disabled");
+        current_step = 1;
         return 1;
     } else {
+        $("#theButton").attr("disabled",true);
+        current_step = 0;
         return 0;
     }
 }
@@ -84,10 +89,15 @@ function checkClientID(){
 function checkClientSecret(){
     if ($("#client_secret_input").val().match(/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/)) {
         $('input:submit').removeAttr("disabled");
+        client_secret = $("#client_secret_input").val();
         setMessage(3);
+        current_step = 3;
         return 3;
     } else {
         setMessage(2);
+        client_secret = "";
+        $("#theButton").attr("disabled",true);
+        current_step = 2;
         return 2;
     }
 }
@@ -101,6 +111,7 @@ function startOver(){
     $("#client_id_input").attr("readonly",false);
     document.cookie = "clientID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     $('input:submit').attr("disabled",true);
+    current_step = 0;
     setMessage(0);
 }
 
@@ -113,9 +124,44 @@ function setClientCookie(value) {
     document.cookie = "clientID=" + value + ";" + expires + ";path=/";
 }
 
-//TODO: redirect to oauth authorize page
-//
-//TODO: validate Client Secret format returns bool
-//
-//TODO: parse, validate Token formating, and return token
+//TODO: parse the JSON and update the DOM to display the token
+function showToken(response){
+}
 
+//TODO: parse the JSON and update the DOM to display the smartapp URL
+function showEndpoint(response){
+}
+
+function nextStep(){
+    console.log(current_step);
+    if (current_step == 1){
+        console.log("redirect to smartthings");
+        var uri = authorize_uri +
+              "?response_type=code&scope=app" +
+              "&redirect_uri=" +
+              document.location.origin + document.location.pathname +
+              "&client_id=" + client_id;
+        console.log(uri)
+        document.location = uri;
+    }
+    if (current_step == 3){
+        console.log("fetch token and uri");
+        $("#client_secret_input").attr("readonly",true);
+        $("#your_url").val("Please wait, request sent");
+        $("#your_token").val("Please wait, request sent");
+        $("#theButton").attr("disabled",true);
+        //This will get the authentication token:
+        var uri = token_uri +
+              "?grant_type=authorization_code&scope=app" +
+              "&redirect_uri=" +
+              document.location.origin + document.location.pathname +
+              "&client_id=" + client_id + "&client_secret=" + client_secret +
+              "&code=" + auth_code;
+        console.log(uri);
+        //TODO: call api to get token, and pass the json to showToken()
+        //TODO: build uri to discover endpoint once we have a token ...
+        //TODO: call api to get endpoint, and pass the json to showEndpoint()
+        return true;
+    }
+    console.log("hmm, that's odd");
+}
