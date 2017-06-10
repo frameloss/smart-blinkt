@@ -10,7 +10,7 @@ The [blinkt](https://shop.pimoroni.com/products/blinkt) is a LED hat for the [Ra
 
  * A very simple SmartApp that exposes the status of Smart Home monitor, and monitors an alarm device (it's not possible to determine if there is an active intrusion alarm from the SHM api, but we *can* query the state of an alarm.)
  * A Python script that consumes the REST enpoint from the SmartApp and controls the LEDs (in development; it works ... but needs some changes before releasing.)
- * TODO: A simple JQuery/HTML page to ease the process of generating an access token for accessing the SmartApp. For now [you can follow the instructions here](https://github.com/LXXero/DSCAlarm/blob/master/RESTAPISetup.md)
+ * [A simple JQuery/HTML page](https://frameloss.github.io/smartthings/) to ease the process of generating an access token for accessing the SmartApp. 
 
 Limitations:
 ------------
@@ -32,7 +32,7 @@ Setup:
  1) Buy a Raspberry Pi (a Zero W should work, but requires a header and I haven't tested. If it works let me know!)
  1) Get a blinkt. There are several places that sell these, and they are inexpensive. I paid $7 at microcenter, but adafruit, pimonori, and others offer them.
  1) Install the Smartapp in the [SmartThings IDE](https://graph.api.smartthings.com/), be sure to enable OAuth before publishing.
- 1) [Get a token and find the application's REST endpoint.](https://github.com/LXXero/DSCAlarm/blob/master/RESTAPISetup.md)
+ 1) [Get a token and find the application's REST endpoint.](https://frameloss.github.io/smartthings/) and if that doesn't work, use the instructions [here](https://github.com/LXXero/DSCAlarm/blob/master/RESTAPISetup.md)
  1) Install the [Pimonori Python Libraries](https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-blinkt)
  1) Copy the Python script to your Pi, and update the settings to use the correct token and endpoint.
  1) Setup the Pi to start the script at boot time.
