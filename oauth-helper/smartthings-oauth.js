@@ -126,6 +126,7 @@ function setClientCookie(value) {
 
 //TODO: parse the JSON and update the DOM to display the token
 function showToken(response){
+    console.log(response);
 }
 
 //TODO: parse the JSON and update the DOM to display the smartapp URL
@@ -157,11 +158,18 @@ function nextStep(){
               document.location.origin + document.location.pathname +
               "&client_id=" + client_id + "&client_secret=" + client_secret +
               "&code=" + auth_code;
-        console.log(uri);
-        //TODO: call api to get token, and pass the json to showToken()
-        //TODO: build uri to discover endpoint once we have a token ...
-        //TODO: call api to get endpoint, and pass the json to showEndpoint()
+              //"&code=" + auth_code + "&callback=?";
+        $("#win_token").text(' Invoke-WebRequest -UseBasicParsing -Uri "' + uri + '"| ConvertFrom-Json');
+        $("#nix_token").text(' curl -s "' + uri + '" | awk -F: \'{print $2}\'|awk -F\\" \'{print $2}\'');
+        $("#token_resp").attr("src",uri);
+
+        $("#win_endpoint").text(' Invoke-WebRequest -Headers @{"Authorization"="Bearer ACCESS_TOKEN"} -UseBasicParsing -Uri "' + endpoints_uri + '"| ConvertFrom-Json');
+        $("#nix_endpoint").text(' curl -sH "Authorization: Bearer ACCESS_TOKEN" "' + endpoints_uri + '"');
+
+        //It's a shame that there is no CORS on the oauth service, it would have been much cleaner to just ...
+        //$.getJSON( uri, function( json ) {
+        //      console.log( json );
+        //      });
         return true;
     }
-    console.log("hmm, that's odd");
 }

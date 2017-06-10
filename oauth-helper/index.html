@@ -1,7 +1,7 @@
 <html>
 <head>
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none'; object-src 'none'; script-src https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com 'self' 'unsafe-inline'; connect-src https://graph.api.smarthings.com; form-action 'self' https://graph.api.smartthings.com; style-src 'self' https://maxcdn.bootstrapcdn.com; font-src https://maxcdn.bootstrapcdn.com">
+  <!-- meta http-equiv="Content-Security-Policy" content="default-src 'self' https://graph.api.smartthings.com ; object-src 'none'; script-src https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com 'self' 'unsafe-inline'; connect-src https://graph.api.smartthings.com; child-src https://graph.api.smartthings.com ;form-action 'self' https://graph.api.smartthings.com; style-src 'self' https://maxcdn.bootstrapcdn.com; font-src https://maxcdn.bootstrapcdn.com" -->
   <meta http-equiv="cache-control" content="max-age=0" />
   <meta http-equiv="cache-control" content="no-cache" />
   <meta http-equiv="expires" content="0" />
@@ -31,7 +31,7 @@
         <p>For more information, see the OAuth documentation <a href="http://docs.smartthings.com/en/latest/smartapp-web-services-developers-guide/authorization.html">in the Smartthings developer documentation</a>.</p>
         <p><em>Note: this tool does not save any information you submit to the server, the entire process is handled from the web browser in Javascript. The client id is temporarily stored in a cookie until the OAuth authorization code is returned via callback, but authorization codes, and secrets are not retained.</em></p>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-8">
           <b><p id="whatIsNext"></p></b>
           <p>Enter the Client ID: <input type=text id="client_id_input" required size="80%" max="36" 
              pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" 
@@ -40,12 +40,26 @@
              value="Required once an authorization code has been retrieved." readonly 
              pattern="^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$" 
              onkeyup="current_step = checkClientSecret()" /></p>
-          <p>Your REST Endpoint: <input type=text id="your_url" 
-            value="Your URL will appear here once complete." size="80%" readonly /></p>
-          <p>Your Secret Token: <input type=text id="your_token" 
-            value="Your token will appear here once complete." size="80%" readonly /></p>
           <p><input type=submit id="resetButton" value="Start Over" onclick="startOver()" disabled /> 
              <input type=submit id="theButton" value="Next Step" onclick="nextStep()" disabled /></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+          <p>You can retrieve your tokens using the following commands. On Windows, open the <b>powershell</b> application, on Mac or Linux use the <b>Terminal</b> program.</p>
+      </div>
+      <div class="col-sm-8" id="token_howto">
+          <p>Get Auth Token On Windows:</p><p><pre id="win_token"></pre></p><br />
+          <p>Get Auth Token On Mac/Linux:</p><p><pre id="nix_token"></pre></p><br />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <p><b>Replace the string ACCESS_TOKEN in the following with the token you recieved.</b><br /><br /><em>Sorry, the SmartThings OAuth service doesn't set a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">Cross Origin Resource Sharing</a> allow header, so this can't be done automatically in a web browser.</p>
+      </div>
+      <div class="col-sm-8" id="url_howto">
+      <p>Get REST Endpoint URI On Windows:</p><p><pre id="win_endpoint"></pre></p><br />
+      <p>Get REST Endpoint URI On Mac/Linux:</p><p><pre id="nix_endpoint"></pre></p><br />
       </div>
     </div>
   </div>
