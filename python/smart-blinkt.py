@@ -17,11 +17,12 @@ import time
 import json
 import requests
 import threading
+import os
 from datetime import datetime
 from blinkt import set_clear_on_exit, set_pixel, show, set_brightness
 
 # Set the following values in config.py
-with open('settings.json') as settings:
+with open( os.path.dirname(os.path.realpath(__file__)) + '/settings.json') as settings:
     data = json.load(settings)
 
 ENDPOINT = data['endpoint'] + "/mode"
